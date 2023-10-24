@@ -52,12 +52,10 @@ public class Bot2 extends Bot {
 		int depth;
 		int mobility = mobility(getBoard());
 
-		if (mobility < 9)
+		if (mobility < 12)
 			depth = 8;
-		else if (mobility < 20)
-			depth = 7;
 		else
-			depth = 6;
+			depth = 7;
 
 		if (getNbSeed() + getOpponent().getNbSeed() > 5)
 			minMax.setEvaluation(new Evaluation2());

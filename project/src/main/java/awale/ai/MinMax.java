@@ -3,17 +3,19 @@ package awale.ai;
 import awale.action.*;
 import awale.game.Bot;
 import awale.game.Player;
-import awale.verification.Verification;
 
-import java.util.Deque;
 import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class MinMax {
     private final Bot player;
     private Evaluation evaluation;
+    private int nbMove;
 
     public MinMax(Bot player, Evaluation evaluation) {
         this.player = player;
         this.evaluation = evaluation;
+        nbMove = 0;
     }
 
     public void setEvaluation(Evaluation evaluation) {
@@ -36,6 +38,8 @@ public class MinMax {
         int nbSeedCapturedByPlayer;
         int [][] boardDeepCopy;
         Action action = null;
+
+        nbMove++;
 
         if (depthMax == 0)
             throw  new RuntimeException("depth must be greater than 0");
@@ -87,7 +91,6 @@ public class MinMax {
                 boardDeepCopy = deepCopy(board);
                 int nbSeedCapturedByOpponent = a.execute(boardDeepCopy);
                 beta = Integer.min(beta, alphaBetaValue(boardDeepCopy, nbSeedPlayer, nbSeedCapturedByOpponent+nbSeedOpponent, depth-1, alpha, beta, true));
-                //System.out.println(a+" -> "+beta);
                 if (beta <= alpha)
                     return beta;
             }
@@ -99,16 +102,20 @@ public class MinMax {
         Deque<Action> actions = new ArrayDeque<>();
 
         for (int i = 0; i < 16; i++)
-            if (player.holeIsCorrect(i)) {
+            if (player.holeIsCorrect(i))
+                if (board[i][2] > 0)
+                    actions.push(new TransparentBlueAction(i, player));
+        for (int i = 0; i < 16; i++)
+            if (player.holeIsCorrect(i))
                 if (board[i][0] > 0)
                     actions.push(new BlueAction(i, player));
+        for (int i = 0; i < 16; i++)
+            if (player.holeIsCorrect(i))
+                actions.push(new TransparentRedAction(i, player));
+        for (int i = 0; i < 16; i++)
+            if (player.holeIsCorrect(i))
                 if (board[i][1] > 0)
                     actions.push(new RedAction(i, player));
-                if (board[i][2] > 0) {
-                    actions.push(new TransparentBlueAction(i, player));
-                    actions.push(new TransparentRedAction(i, player));
-                }
-            }
         return actions;
     }
 
@@ -121,7 +128,8 @@ public class MinMax {
         System.out.print(" | depth = "+depth);
         System.out.print(" | time = "+time+" |\n");
         System.out.print("| score "+player.getName()+" = "+player.getNbSeed());
-        System.out.print(" | score "+player.getOpponent().getName()+" = "+player.getOpponent().getNbSeed()+" |\n");
+        System.out.print(" | score "+player.getOpponent().getName()+" = "+player.getOpponent().getNbSeed());
+        System.out.print("| nbMove = "+nbMove+" |\n");
         System.out.println(ANSI_RESET);
     }
 

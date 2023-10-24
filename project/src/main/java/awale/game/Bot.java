@@ -9,7 +9,6 @@ public abstract class Bot extends Player {
 
     public Bot() {
         super();
-        setName("Bot1");
         this.minMax = new MinMax(this, new Evaluation1());
     }
     public Bot (String name, Verification holeVerify, int [][] board) {

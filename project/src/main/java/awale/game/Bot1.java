@@ -51,12 +51,10 @@ public class Bot1 extends Bot {
 		int depth;
 		int mobility = mobility(getBoard());
 
-		if (mobility < 9)
+		if (mobility < 12)
 			depth = 8;
-		else if (mobility < 20)
-			depth = 7;
 		else
-			depth = 6;
+			depth = 7;
 
 		minMax.setEvaluation(new Evaluation2());
 		Action action = minMax.decisionAlphaBeta(getBoard(), depth, true);
