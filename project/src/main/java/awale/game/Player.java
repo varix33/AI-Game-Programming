@@ -2,7 +2,8 @@ package awale.game;
 
 import awale.verification.Verification;
 import awale.action.Action;
-public abstract class Player {
+import awale.mqtt.MqttSubscribe;
+public abstract class Player extends MqttSubscribe {
     private int nbSeed;
     private String name;
     private Player opponent;

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%p %c{1} %M -> %m%n" />
+		</Console>
+		<RollingFile name="application_debug" fileName="Logs/debug.log" filePattern="Logs/debug-%d{dd-MM-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+				<SizeBasedTriggeringPolicy size="20MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingFile>
+		<RollingFile name="application_info" fileName="Logs/info.log" filePattern="Logs/info-%d{dd-MM-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+				<SizeBasedTriggeringPolicy size="20MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<logger name="fr.phenix333" level="debug" />
+
+		<Root level="warn">
+			<AppenderRef ref="application_debug" level="debug"/>
+			<AppenderRef ref="application_info" level="info"/>
+			<AppenderRef ref="STDOUT" level="info"/>
+		</Root>
+	</Loggers>
+</Configuration>

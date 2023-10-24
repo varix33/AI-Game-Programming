@@ -1,10 +1,10 @@
 package awale.game;
 
-import awale.action.Action;
 import awale.ai.*;
 import awale.verification.Verification;
 
 public abstract class Bot extends Player {
+	
     protected MinMax minMax;
 
     public Bot() {
