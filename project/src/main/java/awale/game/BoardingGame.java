@@ -42,7 +42,7 @@ public class BoardingGame {
             printBoarding();
 
             // Starving
-            if (players[i].getOpponent().isStarved()) {
+            if (players[i].getOpponent().isStarved(board)) {
                 players[i].setNbSeed(80 - players[i].getOpponent().getNbSeed());
                 System.out.println(players[i].getName() + " starved " + players[i].getOpponent().getName() + " and obtained the last seeds !");
             }

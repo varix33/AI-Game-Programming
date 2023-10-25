@@ -48,7 +48,7 @@ public abstract class Player extends MqttSubscribe {
             setNbSeed(getNbSeed() + nbSeed);
         }
     }
-    public boolean isStarved() {
+    public boolean isStarved(int[][] board) {
         for (int i = 0; i < 16; i++)
             if(holeIsCorrect(i) && (board[i][0]+board[i][1]+board[i][2]) != 0)
                 return false;
@@ -94,21 +94,17 @@ public abstract class Player extends MqttSubscribe {
         Deque<Action> actions = new ArrayDeque<>();
 
         for (int i = 0; i < 16; i++)
-            if (holeIsCorrect(i))
-                if (board[i][2] > 0)
-                    actions.push(new TransparentBlueAction(i, this));
+            if (holeIsCorrect(i) && board[i][2] > 1)
+                actions.push(new TransparentBlueAction(i, this));
         for (int i = 0; i < 16; i++)
-            if (holeIsCorrect(i))
-                if (board[i][0] > 0)
-                    actions.push(new BlueAction(i, this));
+            if (holeIsCorrect(i) && board[i][0] > 0)
+                actions.push(new BlueAction(i, this));
         for (int i = 0; i < 16; i++)
-            if (holeIsCorrect(i))
-                if(board[i][2] > 0)
-                    actions.push(new TransparentRedAction(i, this));
+            if (holeIsCorrect(i) && board[i][2] > 0)
+                actions.push(new TransparentRedAction(i, this));
         for (int i = 0; i < 16; i++)
-            if (holeIsCorrect(i))
-                if (board[i][1] > 0)
-                    actions.push(new RedAction(i, this));
+            if (holeIsCorrect(i) && board[i][1] > 0)
+                actions.push(new RedAction(i, this));
         return actions;
     }
 

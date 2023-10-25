@@ -22,7 +22,7 @@ public class Bot3 extends Bot {
 		setName("Bot3");
 		this.minMax = new MinMax(this, new EvaluationBot3Start());
 
-		addMqtt();
+		//addMqtt();
 	}
 
 	private void addMqtt() {
@@ -52,20 +52,19 @@ public class Bot3 extends Bot {
 		int mobility = mobility(getBoard());
 
 		if (getOpponent().nbRedSeed() < 3)
-			depth = 7;
+			depth = 8;
 		else
 			depth = 8;
 
-		if ((mobility(getBoard()) - getOpponent().mobility(getBoard())) > 6)
+		if ((mobility(getBoard()) - getOpponent().mobility(getBoard())) > 12)
 			minMax.setEvaluation(new EvaluationBot3End());
 		else
 			minMax.setEvaluation(new EvaluationBot3Start());
 
-		minMax.setEvaluation(new EvaluationBot3Start());
 		Action action = minMax.decisionAlphaBeta(getBoard(), depth, true);
 		System.out.println(getName() + " play " + action);
 
-		mqttPublish.publish(action.toString());
+		//mqttPublish.publish(action.toString());
 
 		return action;
 	}

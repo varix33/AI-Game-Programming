@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class Main {
 
@@ -15,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         deletePaho();
 
-        BoardingGame Game = new BoardingGame(new Bot3(), new AutoMqtt(), new Manual());
+        BoardingGame Game = new BoardingGame(new Bot3(), new Bot1(), new Random());
         Game.play();
     }
 
@@ -37,4 +38,5 @@ public class Main {
             }
         }
     }
+
 }

@@ -8,21 +8,18 @@ import java.util.Deque;
 public class MinMax {
     private final Bot player;
     private Evaluation evaluation;
-    private int lastEval;
+
     private int nbMove;
 
     public MinMax(Bot player, Evaluation evaluation) {
         this.player = player;
         this.evaluation = evaluation;
         nbMove = 0;
-        lastEval = 0;
     }
 
     public void setEvaluation(Evaluation evaluation) {
         this.evaluation = evaluation;
     }
-
-    public int getLastEval() { return lastEval; }
 
     private int[][] deepCopy(int[][] board) {
         int[][] boardCopy = new int[16][3];
@@ -64,21 +61,22 @@ public class MinMax {
 
         if (information)
             printInfo(alpha, depthMax,endTime-startTime, player.mobility(board));
-        lastEval = alpha;
         return action;
     }
 
     private int alphaBetaValue(int [][] board, int nbSeedPlayer, int nbSeedOpponent, int depth, int alpha, int beta, boolean isMax ) {
         if (depth == 0)
-            return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board);
+            return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board, depth);
+        if((player.getNbSeed() + nbSeedPlayer) > 40 || player.getOpponent().isStarved(board))
+            return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board, depth);
 
         Deque<Action> actions;
         int [][] boardDeepCopy;
         if(isMax){
             actions = player.possibleAction(board);
-            if(actions.isEmpty()) {
-                return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board);
-            }
+
+            if (actions.isEmpty())
+                return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board, depth);
 
             for(Action a: actions){
                 boardDeepCopy = deepCopy(board);
@@ -91,8 +89,9 @@ public class MinMax {
         }
         else{
             actions = player.getOpponent().possibleAction(board);
-            if(actions.isEmpty())
-                return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board);
+
+            if (actions.isEmpty())
+                return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board, depth);
 
             for(Action a: actions){
                 boardDeepCopy = deepCopy(board);
