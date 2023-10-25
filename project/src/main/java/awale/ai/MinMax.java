@@ -2,25 +2,27 @@ package awale.ai;
 
 import awale.action.*;
 import awale.game.Bot;
-import awale.game.Player;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class MinMax {
     private final Bot player;
     private Evaluation evaluation;
+    private int lastEval;
     private int nbMove;
 
     public MinMax(Bot player, Evaluation evaluation) {
         this.player = player;
         this.evaluation = evaluation;
         nbMove = 0;
+        lastEval = 0;
     }
 
     public void setEvaluation(Evaluation evaluation) {
         this.evaluation = evaluation;
     }
+
+    public int getLastEval() { return lastEval; }
 
     private int[][] deepCopy(int[][] board) {
         int[][] boardCopy = new int[16][3];
@@ -45,19 +47,24 @@ public class MinMax {
             throw  new RuntimeException("depth must be greater than 0");
 
         long startTime = System.currentTimeMillis();
-        for (Action a: possibleAction(player, board)) {
+
+        for (Action a: player.possibleAction(board)) {
             boardDeepCopy = deepCopy(board);
             nbSeedCapturedByPlayer = a.execute(boardDeepCopy);
             val = alphaBetaValue(boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax-1, alpha, Integer.MAX_VALUE, false);
+
             if (val > alpha) {
                 action = a;
                 alpha = val;
             }
         }
+
         long endTime = System.currentTimeMillis();
+
 
         if (information)
             printInfo(alpha, depthMax,endTime-startTime, player.mobility(board));
+        lastEval = alpha;
         return action;
     }
 
@@ -68,7 +75,7 @@ public class MinMax {
         Deque<Action> actions;
         int [][] boardDeepCopy;
         if(isMax){
-            actions = possibleAction(player, board);
+            actions = player.possibleAction(board);
             if(actions.isEmpty()) {
                 return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board);
             }
@@ -83,7 +90,7 @@ public class MinMax {
             return alpha;
         }
         else{
-            actions = possibleAction(player.getOpponent(), board);
+            actions = player.getOpponent().possibleAction(board);
             if(actions.isEmpty())
                 return evaluation.evaluate(player, nbSeedPlayer, nbSeedOpponent, board);
 
@@ -96,27 +103,6 @@ public class MinMax {
             }
             return beta;
         }
-    }
-
-    public Deque<Action> possibleAction(Player player, int[][] board) {
-        Deque<Action> actions = new ArrayDeque<>();
-
-        for (int i = 0; i < 16; i++)
-            if (player.holeIsCorrect(i))
-                if (board[i][2] > 0)
-                    actions.push(new TransparentBlueAction(i, player));
-        for (int i = 0; i < 16; i++)
-            if (player.holeIsCorrect(i))
-                if (board[i][0] > 0)
-                    actions.push(new BlueAction(i, player));
-        for (int i = 0; i < 16; i++)
-            if (player.holeIsCorrect(i))
-                actions.push(new TransparentRedAction(i, player));
-        for (int i = 0; i < 16; i++)
-            if (player.holeIsCorrect(i))
-                if (board[i][1] > 0)
-                    actions.push(new RedAction(i, player));
-        return actions;
     }
 
     private void printInfo(int alpha, int depth, long time, int mobility ) {

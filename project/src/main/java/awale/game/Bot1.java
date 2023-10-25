@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import awale.ai.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import awale.action.Action;
-import awale.ai.Evaluation2;
 import awale.mqtt.MqttPublish;
 import awale.mqtt.MqttSubscribe;
 
@@ -21,6 +21,7 @@ public class Bot1 extends Bot {
 	public Bot1() {
 		super();
 		setName("Bot1");
+		this.minMax = new MinMax(this, new EvaluationBot1Start());
 
 		addMqtt();
 	}
@@ -49,14 +50,15 @@ public class Bot1 extends Bot {
 	@Override
 	public Action chooseAction() {
 		int depth;
-		int mobility = mobility(getBoard());
 
-		if (mobility < 12)
-			depth = 8;
-		else
+		if (getOpponent().nbRedSeed() < 3)
 			depth = 7;
+		else
+			depth = 8;
 
-		minMax.setEvaluation(new Evaluation2());
+		if (getOpponent().mobility(getBoard()) < 6)
+			minMax.setEvaluation(new EvaluationBot1End());
+
 		Action action = minMax.decisionAlphaBeta(getBoard(), depth, true);
 		System.out.println(getName() + " play " + action);
 

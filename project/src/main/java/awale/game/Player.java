@@ -1,8 +1,12 @@
 package awale.game;
 
+import awale.action.*;
 import awale.verification.Verification;
-import awale.action.Action;
 import awale.mqtt.MqttSubscribe;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public abstract class Player extends MqttSubscribe {
     private int nbSeed;
     private String name;
@@ -46,7 +50,7 @@ public abstract class Player extends MqttSubscribe {
     }
     public boolean isStarved() {
         for (int i = 0; i < 16; i++)
-            if(holeIsCorrect(i+1) && (board[i][0]+board[i][1]+board[i][2]) != 0)
+            if(holeIsCorrect(i) && (board[i][0]+board[i][1]+board[i][2]) != 0)
                 return false;
         return true;
     }
@@ -63,5 +67,50 @@ public abstract class Player extends MqttSubscribe {
             }
         return mobility;
     }
+
+    public int nbBlueSeed() {
+        int nbSeed = 0;
+        for (int i = 0; i < 16; i++)
+            if(holeIsCorrect(i))
+                nbSeed += board[i][0];
+        return nbSeed;
+    }
+    public int nbRedSeed() {
+        int nbSeed = 0;
+        for (int i = 0; i < 16; i++)
+            if(holeIsCorrect(i))
+                nbSeed += board[i][1];
+        return nbSeed;
+    }
+    public int nbTransparentSeed() {
+        int nbSeed = 0;
+        for (int i = 0; i < 16; i++)
+            if(holeIsCorrect(i))
+                nbSeed += board[i][2];
+        return nbSeed;
+    }
+
+    public Deque<Action> possibleAction(int[][] board) {
+        Deque<Action> actions = new ArrayDeque<>();
+
+        for (int i = 0; i < 16; i++)
+            if (holeIsCorrect(i))
+                if (board[i][2] > 0)
+                    actions.push(new TransparentBlueAction(i, this));
+        for (int i = 0; i < 16; i++)
+            if (holeIsCorrect(i))
+                if (board[i][0] > 0)
+                    actions.push(new BlueAction(i, this));
+        for (int i = 0; i < 16; i++)
+            if (holeIsCorrect(i))
+                if(board[i][2] > 0)
+                    actions.push(new TransparentRedAction(i, this));
+        for (int i = 0; i < 16; i++)
+            if (holeIsCorrect(i))
+                if (board[i][1] > 0)
+                    actions.push(new RedAction(i, this));
+        return actions;
+    }
+
 }
 
