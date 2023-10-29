@@ -1,4 +1,4 @@
-package awale.game.startingMode;
+package awale.game;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +12,6 @@ import awale.action.BlueAction;
 import awale.action.RedAction;
 import awale.action.TransparentBlueAction;
 import awale.action.TransparentRedAction;
-import awale.game.Player;
 import awale.verification.Verification;
 
 public class AutoMqtt extends Player {

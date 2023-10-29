@@ -110,20 +110,17 @@ public class MinMax {
 		Deque<Action> actions = new ArrayDeque<>();
 
 		for (int i = 0; i < 16; i++)
-			if (player.holeIsCorrect(i))
-				if (board[i][2] > 0)
-					actions.push(new TransparentBlueAction(i, player));
+			if (player.holeIsCorrect(i) && board[i][2] > 0)
+				actions.push(new TransparentBlueAction(i, player));
 		for (int i = 0; i < 16; i++)
-			if (player.holeIsCorrect(i))
-				if (board[i][0] > 0)
-					actions.push(new BlueAction(i, player));
+			if (player.holeIsCorrect(i) && board[i][0] > 0)
+				actions.push(new BlueAction(i, player));
 		for (int i = 0; i < 16; i++)
-			if (player.holeIsCorrect(i))
+			if (player.holeIsCorrect(i) && board[i][2] > 0)
 				actions.push(new TransparentRedAction(i, player));
 		for (int i = 0; i < 16; i++)
-			if (player.holeIsCorrect(i))
-				if (board[i][1] > 0)
-					actions.push(new RedAction(i, player));
+			if (player.holeIsCorrect(i) && board[i][1] > 0)
+				actions.push(new RedAction(i, player));
 		return actions;
 	}
 

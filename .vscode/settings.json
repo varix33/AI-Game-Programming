@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "stdbool.h": "c",
+        "verification.h": "c",
+        "odd.h": "c",
+        "even.h": "c",
+        "*.java": "cpp",
+        "stdio.h": "c",
+        "bot1.h": "c",
+        "random.h": "c",
+        "startingmode.h": "c",
+        "boardinggame.h": "c",
+        "player.h": "c",
+        "bot2.h": "c",
+        "action.h": "c",
+        "blueaction.h": "c",
+        "evaluation1.h": "c",
+        "minmax.h": "c"
+    }
+}

@@ -38,7 +38,7 @@
 							<Multi-Release>true</Multi-Release>
 						</manifestEntries>
 						<manifest>
-							<mainClass>fr.phenix333.Main</mainClass>
+							<mainClass>awale.Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

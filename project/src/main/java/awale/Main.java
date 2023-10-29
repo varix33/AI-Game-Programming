@@ -1,10 +1,10 @@
 package awale;
 
+import awale.game.AutoMqtt;
 import awale.game.BoardingGame;
 import awale.game.Bot1;
 import awale.game.Bot2;
-import awale.game.Bot3;
-import awale.game.startingMode.AutoMqtt;
+import awale.game.Bot5;
 import awale.game.startingMode.Manual;
 import awale.game.startingMode.Random;
 
@@ -20,7 +20,7 @@ public class Main {
 	public static void main(String[] args) {
 		deletePaho();
 
-		BoardingGame Game = new BoardingGame(new Bot3(), new Bot1(), new Random());
+		BoardingGame Game = new BoardingGame(new Bot1(), new AutoMqtt(), new Manual());
 		Game.play();
 	}
 
