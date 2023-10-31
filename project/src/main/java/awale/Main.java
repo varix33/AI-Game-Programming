@@ -20,7 +20,7 @@ public class Main {
 	public static void main(String[] args) {
 		deletePaho();
 
-		BoardingGame Game = new BoardingGame(new Bot1(), new AutoMqtt(), new Manual());
+		BoardingGame Game = new BoardingGame(new Bot2(), new AutoMqtt(), new Manual());
 		Game.play();
 	}
 

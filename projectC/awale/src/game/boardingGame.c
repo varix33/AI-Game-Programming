@@ -1,6 +1,6 @@
 #include "../../headers/game/boardingGame.h"
 
-BoardingGame createBoardingGame(Player p1, Player p2, StartingMode mode)
+BoardingGame createBoardingGame(Bot *b1, Bot *b2, StartingMode mode)
 {
     BoardingGame boardingGame;
 
@@ -12,7 +12,7 @@ BoardingGame createBoardingGame(Player p1, Player p2, StartingMode mode)
     }
 
     // Select which player starts regarding the mode selected (manual/random)
-    mode.execute(boardingGame.players, p1, p2, boardingGame.board);
+    mode.execute(boardingGame.bots, b1, b2, boardingGame.board);
 
     return boardingGame;
 }
@@ -78,18 +78,21 @@ void printBoarding(BoardingGame *boardingGame)
 
 bool isGameOver(BoardingGame *boardingGame)
 {
+    int player0NbSeed = *(boardingGame->bots[0].player->nbSeed);
+    int player1NbSeed = *(boardingGame->bots[1].player->nbSeed);
+
     // Less than 10 seeds
     if (remainingSeed(boardingGame) < 10)
     {
         printf("Less than 10 seeds !\n");
 
-        if (boardingGame->players[0].nbSeed > boardingGame->players[1].nbSeed)
+        if (player0NbSeed > player1NbSeed)
         {
-            printf("%s won with %d seeds!\n", boardingGame->players[0].name, boardingGame->players[0].nbSeed);
+            printf("%s won with %d seeds!\n", boardingGame->bots[0].player->name, player0NbSeed);
         }
-        else if (boardingGame->players[0].nbSeed < boardingGame->players[1].nbSeed)
+        else if (player0NbSeed < player1NbSeed)
         {
-            printf("%s won with %d seeds!\n", boardingGame->players[1].name, boardingGame->players[1].nbSeed);
+            printf("%s won with %d seeds!\n", boardingGame->bots[1].player->name, player1NbSeed);
         }
         else
         {
@@ -100,21 +103,21 @@ bool isGameOver(BoardingGame *boardingGame)
     }
 
     // More than 40 seeds
-    if (boardingGame->players[0].nbSeed > 40)
+    if (player0NbSeed > 40)
     {
-        printf("%s won with %d seeds!\n", boardingGame->players[0].name, boardingGame->players[0].nbSeed);
+        printf("%s won with %d seeds!\n", boardingGame->bots[0].player->name, player0NbSeed);
 
         return true;
     }
-    if (boardingGame->players[1].nbSeed > 40)
+    if (player1NbSeed > 40)
     {
-        printf("%s won with %d seeds!\n", boardingGame->players[1].name, boardingGame->players[1].nbSeed);
+        printf("%s won with %d seeds!\n", boardingGame->bots[1].player->name, player1NbSeed);
 
         return true;
     }
 
     // Draw
-    if (boardingGame->players[0].nbSeed == 40 && boardingGame->players[1].nbSeed == 40)
+    if (player0NbSeed == 40 && player1NbSeed == 40)
     {
         printf("Draw !!\n");
 
@@ -124,29 +127,29 @@ bool isGameOver(BoardingGame *boardingGame)
     return false;
 }
 
-void play(BoardingGame *boardingGame)
+void playGame(BoardingGame *boardingGame)
 {
     bool gameOver = false;
 
     printf("GAME START\n");
-    printf("%s starts with odd holes\n", boardingGame->players[0].name);
-    printf("%s continue with even holes\n", boardingGame->players[1].name);
+    printf("%s starts with odd holes\n", boardingGame->bots[0].player->name);
+    printf("%s continue with even holes\n", boardingGame->bots[1].player->name);
 
     printBoarding(boardingGame);
 
-    // TODO
-    // for (int i = 0; !gameOver; i = (i + 1) % 2)
-    // {
-    //     boardingGame->players[i].play();
-    //     printBoarding();
+    for (int i = 0; !gameOver; i = (i + 1) % 2)
+    {
+        playBot(&(boardingGame->bots[i]), boardingGame->bots[i].player->board);
+        gameOver = true;
+        // printBoarding(boardingGame);
 
-    //     // Starving
-    //     if (boardingGame->players[i].getOpponent().isStarved())
-    //     {
-    //         boardingGame->players[i].setNbSeed(80 - boardingGame->players[i].getOpponent().getNbSeed());
-    //         printf("%s starved %s and obtained the last seeds !", boardingGame->players[i].name, boardingGame->players[i].opponent.name);
-    //     }
+        // // Starving
+        // if (boardingGame->players[i].opponent)
+        // {
+        //     boardingGame->players[i].nbSeed = 80 - boardingGame->players[i].opponent->nbSeed;
+        //     printf("%s starved %s and obtained the last seeds !", boardingGame->players[i].name, boardingGame->players[i].opponent->name);
+        // }
 
-    //     gameOver = isGameOver();
-    // }
+        // gameOver = isGameOver(boardingGame);
+    }
 }

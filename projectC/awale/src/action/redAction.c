@@ -4,7 +4,7 @@ RedAction createRedAction(int holeNumber, Player player)
 {
     RedAction redAction;
     redAction.action.holeNumber = holeNumber;
-    redAction.action.player = player;
+    redAction.player = player;
 
     return redAction;
 }

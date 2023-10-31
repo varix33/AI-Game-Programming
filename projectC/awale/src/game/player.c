@@ -1,9 +1,12 @@
 #include "../../headers/game/player.h"
 
-Player createPlayer()
+Player createPlayer(char *name)
 {
     Player player;
+    player.name = name;
     player.nbSeed = 0;
+    player.opponent = NULL;
+    player.holeVerify = NULL;
 
     return player;
 }
@@ -24,7 +27,7 @@ void setBoard(Player *player, int board[16][3])
     }
 }
 
-void setHoleVerify(Player *player, Verification holeVerify)
+void setHoleVerify(Player *player, Verification *holeVerify)
 {
     player->holeVerify = holeVerify;
 }
@@ -36,12 +39,12 @@ void setName(Player *player, const char *name)
 
 void setNbSeed(Player *player, int nbSeed)
 {
-    player->nbSeed = nbSeed;
+    player->nbSeed = &nbSeed;
 }
 
 bool holeIsCorrect(Player *player, int holeNum)
 {
-    return player->holeVerify.satisfy(holeNum);
+    return player->holeVerify->satisfy(holeNum);
 }
 
 bool isStarved(Player *player)
@@ -54,6 +57,7 @@ bool isStarved(Player *player)
             return false;
         }
     }
+
     return true;
 }
 

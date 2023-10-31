@@ -1,10 +1,9 @@
 #include "../../headers/action/action.h"
 
-Action createAction(int holeNumber, Player player)
+Action createAction(int holeNumber)
 {
     Action action;
     action.holeNumber = holeNumber;
-    action.player = player;
 
     return action;
 }

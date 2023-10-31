@@ -14,7 +14,16 @@
         "bot2.h": "c",
         "action.h": "c",
         "blueaction.h": "c",
+        "redaction.h": "c",
+        "transparentblueaction.h": "c",
+        "transparentredaction.h": "c",
+        "elevation.h": "c",
         "evaluation1.h": "c",
-        "minmax.h": "c"
-    }
+        "minmax.h": "c",
+        "evaluation.h": "c",
+        "evaluation2.h": "c",
+        "typeinfo": "c",
+        "bot.h": "c"
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }

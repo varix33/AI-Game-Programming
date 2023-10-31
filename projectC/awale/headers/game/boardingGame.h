@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "player.h"
 #include "startingMode/startingMode.h"
 
 #define ANSI_RESET "\033[0m"
@@ -11,21 +10,22 @@
 #define ANSI_BLUE "\033[34m"
 #define ANSI_GREEN "\033[32m"
 
+// TODO
 typedef struct BoardingGame
 {
     int board[16][3];
-    Player players[2];
+    Bot bots[2];
 } BoardingGame;
 
-// Déclarations des fonctions TODO
-BoardingGame createBoardingGame(Player p1, Player p2, StartingMode mode);
-// OK
+// TODO
+BoardingGame createBoardingGame(Bot *b1, Bot *b2, StartingMode mode);
+// TODO
 int remainingSeed(BoardingGame *boardingGame);
-// OK
+// TODO
 void printBoarding(BoardingGame *boardingGame);
-// OK
+// TODO
 bool isGameOver(BoardingGame *boardingGame);
 // TODO
-void play(BoardingGame *boardingGame);
+void playGame(BoardingGame *boardingGame);
 
 #endif

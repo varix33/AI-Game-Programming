@@ -4,7 +4,7 @@ TransparentRedAction createTransparentRedAction(int holeNumber, Player player)
 {
     TransparentRedAction transparentRedAction;
     transparentRedAction.action.holeNumber = holeNumber;
-    transparentRedAction.action.player = player;
+    transparentRedAction.player = player;
 
     return transparentRedAction;
 }
@@ -20,7 +20,7 @@ int execute_transparentRedAction(TransparentRedAction *transparentRedAction, int
 
         for (; nbSeed > 0; i = (i + 1) % 16)
         {
-            if (!i != transparentRedAction->action.holeNumber)
+            if (i != transparentRedAction->action.holeNumber)
             {
                 board[i][2]++;
                 nbSeed--;

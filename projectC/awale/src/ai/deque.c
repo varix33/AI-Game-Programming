@@ -115,12 +115,12 @@ Action getActionAt(Deque *deque, int index)
         i++;
     }
 
-    if (current != NULL)
-    {
+    // if (current != NULL)
+    // {
         return current->data;
-    }
-    else
-    {
-        // TODO error
-    }
+    // }
+    // else
+    // {
+    //     // TODO error
+    // }
 }

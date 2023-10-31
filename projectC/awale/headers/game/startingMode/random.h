@@ -3,12 +3,11 @@
 
 #include <time.h>
 #include <stdlib.h>
-#include "../player.h"
-#include "../../verification/verification.h"
+#include "../bot.h"
 #include "../../verification/odd.h"
 #include "../../verification/even.h"
 
-// OK but TODO for human and pointer ?
-void execute_random(Player players[2], Player p1, Player p2, int board[16][3]);
+// TODO
+void execute_random(Bot bots[2], Bot *b1, Bot *b2, int board[16][3]);
 
 #endif

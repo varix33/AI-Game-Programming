@@ -2,18 +2,20 @@
 #define transparentblueaction_h
 
 #include <stdlib.h>
-#include "action.h"
 #include "../game/player.h"
 
+// TODO
 typedef struct TransparentBlueAction
 {
     Action action;
+    Player player;
 } TransparentBlueAction;
 
-// TODO pointer ?
+// TODO
 TransparentBlueAction createTransparentBlueAction(int holeNumber, Player player);
-// TODO pointer ?
+// TODO
 int execute_transparentBlueAction(TransparentBlueAction *transparentBlueAction, int board[16][3]);
+// TODO
 char *toStringTransparentBlueAction(TransparentBlueAction *transparentBlueAction);
 
 #endif

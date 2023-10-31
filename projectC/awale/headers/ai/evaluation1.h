@@ -1,9 +1,9 @@
 #ifndef evaluation1_h
 #define evaluation1_h
 
-#include "../game/bot.h"
+#include "../game/player.h"
 
-// TODO pointer ?
-int evaluate_evaluation1(Bot bot, int nbSeedCapturedByMe, int nbSeedCapturedByOpponent, int board[16][3]);
+// TODO
+int evaluate_evaluation1(Player player, int nbSeedCapturedByMe, int nbSeedCapturedByOpponent, int board[16][3]);
 
 #endif

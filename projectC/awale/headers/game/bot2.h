@@ -6,10 +6,10 @@
 
 typedef struct Bot2
 {
-    Bot bot;
+    Bot *bot;
 } Bot2;
 
 Bot2 createBot2();
-Action chooseAction_bot2();
+Action chooseAction_bot2(Bot *bot);
 
 #endif

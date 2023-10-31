@@ -4,7 +4,7 @@ TransparentBlueAction createTransparentBlueAction(int holeNumber, Player player)
 {
     TransparentBlueAction transparentBlueAction;
     transparentBlueAction.action.holeNumber = holeNumber;
-    transparentBlueAction.action.player = player;
+    transparentBlueAction.player = player;
 
     return transparentBlueAction;
 }
@@ -20,7 +20,7 @@ int execute_transparentBlueAction(TransparentBlueAction *transparentBlueAction, 
 
         for (; nbSeed > 0; i = (i + 1) % 16)
         {
-            if (!holeIsCorrect(&(transparentBlueAction->action.player), i) && i != transparentBlueAction->action.holeNumber)
+            if (!holeIsCorrect(&(transparentBlueAction->player), i) && i != transparentBlueAction->action.holeNumber)
             {
                 board[i][2]++;
                 nbSeed--;
