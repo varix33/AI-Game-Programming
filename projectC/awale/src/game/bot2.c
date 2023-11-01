@@ -12,34 +12,35 @@ Bot2 createBot2()
 
 Action chooseAction_bot2(Bot *bot)
 {
-    int depth = 6;
-    int mob = mobility(bot->player, bot->player->board);
+    // int depth = 6;
+    // int mob = mobility(bot->player, bot->player->board);
 
-    if (mob < 9)
-    {
-        depth = 8;
-    }
-    else if (mob < 20)
-    {
-        depth = 7;
-    }
+    // if (mob < 9)
+    // {
+    //     depth = 8;
+    // }
+    // else if (mob < 20)
+    // {
+    //     depth = 7;
+    // }
 
-    Evaluation evaluation;
+    // Evaluation evaluation;
 
-    if (*(bot->player->nbSeed) + *(bot->player->opponent->nbSeed) > 5)
-    {
+    // if (*(bot->player->nbSeed) + *(bot->player->opponent->nbSeed) > 5)
+    // {
 
-        evaluation.evaluate = evaluate_evaluation2;
-    }
-    else
-    {
-        evaluation.evaluate = evaluate_evaluation1;
-    }
+    //     evaluation.evaluate = evaluate_evaluation2;
+    // }
+    // else
+    // {
+    //     evaluation.evaluate = evaluate_evaluation1;
+    // }
 
-    setEvaluation(&(bot->minMax), &(evaluation));
+    // setEvaluation(&(bot->minMax), &(evaluation));
 
-    Action action = decisionAlphaBeta(&(bot->minMax), bot->player->board, depth, true);
-    printf("%s play %s", bot->player->name, toStringAction(&(action)));
+    // Action action = decisionAlphaBeta(&(bot->minMax), bot->player->board, depth, true);
+    // printf("%s play %s", bot->player->name, toStringAction(&(action)));
+    Action action;
 
     return action;
 }

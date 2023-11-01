@@ -10,21 +10,21 @@
 // TODO
 typedef struct Player
 {
-    int *nbSeed;
+    int nbSeed;
     const char *name;
     struct Player *opponent;
-    Verification *holeVerify;
+    Verification holeVerify;
     int board[16][3];
 } Player;
 
 // TODO
-Player *createPlayer(char *name);
+Player createPlayer(char *name);
 // TODO
 void setOpponent(Player *player, Player *opponent);
 // TODO
 void setBoard(Player *player, int board[16][3]);
 // TODO
-void setHoleVerify(Player *player, Verification *holeVerify);
+void setHoleVerify(Player *player, Verification holeVerify);
 // TODO
 void setName(Player *player, const char *name);
 // TODO

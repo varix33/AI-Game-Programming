@@ -9,14 +9,14 @@
 // TODO
 typedef struct Bot
 {
-    Player *player;
+    Player player;
     MinMax minMax;
 
     Action (*chooseAction)(struct Bot *bot);
 } Bot;
 
 // TODO
-Bot *createBot(char *name);
+Bot createBot(char *name);
 // TODO
 void setMinMax(Bot *bot, MinMax minMax);
 // TODO

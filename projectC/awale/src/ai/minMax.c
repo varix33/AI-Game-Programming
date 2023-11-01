@@ -27,7 +27,7 @@ void deepCopy(int board[16][3], int boardCopy[16][3])
 
 Action decisionAlphaBeta(MinMax *minMax, int board[16][3], int depthMax, bool information)
 {
-    printf("%s", minMax->player->holeVerify->satisfy(2) ? "tt" : "ff");
+    printf("%s", minMax->player.holeVerify->satisfy(2) ? "tt" : "ff");
     int alpha = INT_MIN;
     int val;
     int nbSeedCapturedByPlayer;
@@ -197,6 +197,6 @@ void printInfo(MinMax *minMax, int alpha, int depth, long time, int mobility)
 {
     printf("%s", ANSI_GREEN_1);
     printf("| mobility = %d | eval = %d | depth = %d | time = %ld |\n", mobility, alpha, depth, time);
-    printf("| score %s = %d | score %s = %d | nbMove = %d |\n", minMax->player->name, *(minMax->player->nbSeed), minMax->player->opponent->name, *(minMax->player->opponent->nbSeed), minMax->nbMove);
+    printf("| score %s = %d | score %s = %d | nbMove = %d |\n", minMax->player->name, minMax->player->nbSeed, minMax->player->opponent->name, minMax->player->opponent->nbSeed, minMax->nbMove);
     printf("%s\n", ANSI_RESET_1);
 }

@@ -1,12 +1,12 @@
 #include "../../headers/game/bot.h"
 
-Bot *createBot(char *name)
+Bot createBot(char *name)
 {
-    Bot *bot;
+    Bot bot;
     Evaluation evaluation;
     evaluation.evaluate = evaluate_evaluation1;
-    bot->player = createPlayer(name);
-    bot->minMax = createMinMax(createPlayer(name), &(evaluation));
+    bot.player = createPlayer(name);
+    bot.minMax = createMinMax(&(bot.player), &(evaluation));
 
     return bot;
 }

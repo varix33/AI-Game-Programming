@@ -8,6 +8,6 @@
 #include "../../verification/even.h"
 
 // TODO
-void execute_random(Bot bots[2], Bot *b1, Bot *b2, int board[16][3]);
+void execute_random(Bot bots[2], Bot b1, Bot b2, int board[16][3]);
 
 #endif

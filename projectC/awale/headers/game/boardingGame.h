@@ -18,7 +18,7 @@ typedef struct BoardingGame
 } BoardingGame;
 
 // TODO
-BoardingGame createBoardingGame(Bot *b1, Bot *b2, StartingMode mode);
+BoardingGame createBoardingGame(Bot b1, Bot b2, StartingMode mode);
 // TODO
 int remainingSeed(BoardingGame *boardingGame);
 // TODO

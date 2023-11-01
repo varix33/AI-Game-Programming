@@ -6,7 +6,7 @@
 
 typedef struct Bot2
 {
-    Bot *bot;
+    Bot bot;
 } Bot2;
 
 Bot2 createBot2();

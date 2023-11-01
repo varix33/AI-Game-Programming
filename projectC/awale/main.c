@@ -8,7 +8,7 @@ int main()
 {
     StartingMode mode;
     mode.execute = execute_random;
-    Bot *bot1 = createBot1().bot;
+    Bot bot1 = createBot1().bot;
     // Bot *bot2 = createBot2().bot;
 
     // printf("tt %d\n", *(bot1->player->nbSeed));
