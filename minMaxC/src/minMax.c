@@ -27,34 +27,25 @@ bool holeIsCorrect(int player, int holeNum)
     return player == 1 ? satisfy_even(holeNum) : satisfy_odd(holeNum);
 }
 
-bool isStarved(int player, int board[16][3])
-{
-
-    for (int i = 0; i < 16; i++)
-    {
-        if (holeIsCorrect(player, i) && (board[i][0] + board[i][1] + board[i][2]) != 0)
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 int mobility(int player, int board[16][3])
 {
     int mobility = 0;
 
-    for (int i = 0; i < 16; i++)
+    for (int i = player - 1; i < 16; i += 2)
     {
-        if (holeIsCorrect(player, i))
+        if (board[i][0] > 0)
         {
-            if (board[i][0] > 0)
-                mobility += 1;
-            if (board[i][1] > 0)
-                mobility += 1;
-            if (board[i][2] > 0)
-                mobility += 2;
+            mobility += 1;
+        }
+
+        if (board[i][1] > 0)
+        {
+            mobility += 1;
+        }
+
+        if (board[i][2] > 0)
+        {
+            mobility += 2;
         }
     }
 
@@ -286,10 +277,10 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
     {
         bool noAction = true;
 
-        for (int i = 0; i < 16; i++)
+        for (int i = player - 1; i < 16; i += 2)
         {
 
-            if (holeIsCorrect(player, i) && board[i][1] > 0)
+            if (board[i][1] > 0)
             {
                 noAction = false;
 
@@ -303,7 +294,7 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
                 }
             }
 
-            if (holeIsCorrect(player, i) && board[i][0] > 0)
+            if (board[i][0] > 0)
             {
                 noAction = false;
 
@@ -317,7 +308,7 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
                 }
             }
 
-            if (holeIsCorrect(player, i) && board[i][2] > 0)
+            if (board[i][2] > 0)
             {
                 noAction = false;
 
@@ -351,9 +342,9 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
 
     bool noAction = true;
 
-    for (int i = 0; i < 16; i++)
+    for (int i = player; i < 16; i += 2)
     {
-        if (holeIsCorrect(player % 2 + 1, i) && board[i][1] > 0)
+        if (board[i][1] > 0)
         {
             noAction = false;
 
@@ -367,7 +358,7 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
             }
         }
 
-        if (holeIsCorrect(player % 2 + 1, i) && board[i][0] > 0)
+        if (board[i][0] > 0)
         {
             noAction = false;
 
@@ -381,7 +372,7 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
             }
         }
 
-        if (holeIsCorrect(player % 2 + 1, i) && board[i][2] > 0)
+        if (board[i][2] > 0)
         {
             noAction = false;
 
@@ -424,7 +415,7 @@ char *toStringAction(int i, char *color)
     return action;
 }
 
-char *decisionAlphaBeta(int player, int nbMove, int board[16][3], int depthMax, bool information)
+char *decisionAlphaBeta(int player, int board[16][3], int depthMax)
 {
     int alpha = INT_MIN;
     int val;
@@ -432,11 +423,9 @@ char *decisionAlphaBeta(int player, int nbMove, int board[16][3], int depthMax, 
     int nbSeedCapturedByPlayer;
     int boardDeepCopy[16][3];
 
-    clock_t startTime = clock();
-
-    for (int i = 0; i < 16; i++)
+    for (int i = player - 1; i < 16; i += 2)
     {
-        if (holeIsCorrect(player, i) && board[i][1] > 0)
+        if (board[i][1] > 0)
         {
             deepCopy(board, boardDeepCopy);
             nbSeedCapturedByPlayer = execute_redAction(player, i, boardDeepCopy);
@@ -449,9 +438,8 @@ char *decisionAlphaBeta(int player, int nbMove, int board[16][3], int depthMax, 
             }
         }
 
-        if (holeIsCorrect(player, i) && board[i][0] > 0)
+        if (board[i][0] > 0)
         {
-
             deepCopy(board, boardDeepCopy);
             nbSeedCapturedByPlayer = execute_blueAction(player, i, boardDeepCopy);
             val = alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, INT_MAX, false);
@@ -463,7 +451,7 @@ char *decisionAlphaBeta(int player, int nbMove, int board[16][3], int depthMax, 
             }
         }
 
-        if (holeIsCorrect(player, i) && board[i][2] > 0)
+        if (board[i][2] > 0)
         {
             deepCopy(board, boardDeepCopy);
             nbSeedCapturedByPlayer = execute_transparentRedAction(player, i, boardDeepCopy);
@@ -487,12 +475,5 @@ char *decisionAlphaBeta(int player, int nbMove, int board[16][3], int depthMax, 
         }
     }
 
-    clock_t endTime = clock();
-
-    if (information)
-    {
-        printInfo(alpha, depthMax, endTime - startTime, mobility(player, board), "Colin", 0, "Antoine", 0, nbMove);
-    }
-
-    return action;
+    printf("%s", action);
 }

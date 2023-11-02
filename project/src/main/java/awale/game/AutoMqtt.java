@@ -46,7 +46,7 @@ public class AutoMqtt extends Player {
 		do {
 			while (move == null) {
 				try {
-					Thread.sleep(10);
+					Thread.sleep(1);
 				} catch (InterruptedException e) {
 					L.error(e);
 				}

@@ -22,8 +22,6 @@ void deepCopy(int board[16][3], int boardCopy[16][3]);
 // OK
 bool holeIsCorrect(int player, int holeNum);
 // OK
-bool isStarved(int player, int board[16][3]);
-// OK
 int mobility(int player, int board[16][3]);
 // OK
 void printInfo(int alpha, int depth, long time, int mobility, char *name, int nbSeed, char *opponentName, int opponentNbSeed, int nbMove);
@@ -50,6 +48,6 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
 // OK
 char *toStringAction(int i, char *color);
 // OK
-char *decisionAlphaBeta(int player, int nbMove, int board[16][3], int depthMax, bool information);
+char *decisionAlphaBeta(int player, int board[16][3], int depthMax);
 
 #endif
