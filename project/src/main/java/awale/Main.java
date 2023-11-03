@@ -5,6 +5,7 @@ import awale.game.BoardingGame;
 import awale.game.Bot1;
 import awale.game.Bot2;
 import awale.game.Bot5;
+import awale.game.Human;
 import awale.game.startingMode.Manual;
 import awale.game.startingMode.Random;
 
@@ -20,7 +21,7 @@ public class Main {
 	public static void main(String[] args) {
 		deletePaho();
 
-		BoardingGame Game = new BoardingGame(new Bot2(), new AutoMqtt(), new Manual());
+		BoardingGame Game = new BoardingGame(new Bot2(), new Human(), new Manual());
 		Game.play();
 	}
 

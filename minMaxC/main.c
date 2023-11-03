@@ -13,17 +13,28 @@ int main(int argc, char *argv[])
 
     decisionAlphaBeta(atoi(argv[49]), board, atoi(argv[50]));
 
-    FILE *fptr;
-    fptr = fopen("result.txt", "w");
-    if (fptr == NULL) {
-        printf("Erreur lors de l'ouverture du fichier.");
-        return 1;
-    }
+    // int numero = 0;
+    // int numero2 = 0;
+    // char init[1] = "t";
+    // char message[15] = "t";
 
-    // Écriture des résultats dans le fichier
-    fprintf(fptr, "Résultat de l'exécution du programme C.");
+    // while (numero < 10)
+    // {
+    //     printf("numero : %d\n", numero);
 
-    fclose(fptr);
+    //     scanf("%d", &numero2);
+
+    //     // do
+    //     // {
+    //     //     printf("Entrez un nouveau message : ");
+    //     //     fgets(message, sizeof(message), stdin);
+    //     // } while (strstr(message, "New move : ") == NULL);
+
+    //     // numero++;
+
+    //     // printf("Send : %c%c%c%c\n", message[11], message[12], message[13], message[14]);
+    //     // message[0] = init[0];
+    // }
 
     return 0;
 }

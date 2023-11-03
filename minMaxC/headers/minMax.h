@@ -30,13 +30,13 @@ void printBoarding(int board[16][3]);
 // OK
 int evaluate(int player, int nbSeedCapturedByMe, int nbSeedCapturedByOpponent, int board[16][3]);
 // OK
-int execute_blueAction(int player, int holeNumber, int board[16][3]);
+int execute_blueAction(int holeNumber, int board[16][3]);
 // OK
-int execute_redAction(int player, int holeNumber, int board[16][3]);
+int execute_redAction(int holeNumber, int board[16][3]);
 // OK
-int execute_transparentBlueAction(int player, int holeNumber, int board[16][3]);
+int execute_transparentBlueAction(int holeNumber, int board[16][3]);
 // OK
-int execute_transparentRedAction(int player, int holeNumber, int board[16][3]);
+int execute_transparentRedAction(int holeNumber, int board[16][3]);
 // OK
 int max(int x, int y);
 // OK

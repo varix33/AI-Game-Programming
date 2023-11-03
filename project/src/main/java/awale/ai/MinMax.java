@@ -12,6 +12,8 @@ import awale.mqtt.MqttSubscribe;
 
 import java.util.Deque;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
@@ -74,17 +76,17 @@ public class MinMax {
 
 		long startTime = System.currentTimeMillis();
 
-//		for (Action a : possibleAction(player, board)) {
-//			boardDeepCopy = deepCopy(board);
-//			nbSeedCapturedByPlayer = a.execute(boardDeepCopy);
-//			val = alphaBetaValue(boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, Integer.MAX_VALUE,
-//					false);
-//			if (val > alpha) {
-//				action = a;
-//				alpha = val;
-//			}
-//		}
-		
+		for (Action a : possibleAction(player, board)) {
+			boardDeepCopy = deepCopy(board);
+			nbSeedCapturedByPlayer = a.execute(boardDeepCopy);
+			val = alphaBetaValue(boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, Integer.MAX_VALUE,
+					false);
+			if (val > alpha) {
+				action = a;
+				alpha = val;
+			}
+		}
+
 //		try {
 //			CommandLine cmdLine = new CommandLine("./main.exe");
 //
@@ -109,37 +111,57 @@ public class MinMax {
 //			L.error("Probleme lors de la generation de la licence : {}", e.getMessage());
 //		}
 //		
-		try {
-			Runtime rt = Runtime.getRuntime();
-			String[] commands = new String[51];
-			
-			commands[0] = "./main";
-			
-			for (int i = 0; i < 16; i++) {
-				commands[i * 3 + 1] = String.valueOf(board[i][0]);
-				commands[i * 3 + 2] = String.valueOf(board[i][1]);
-				commands[i * 3 + 3] = String.valueOf(board[i][2]);
-			}
-			commands[49] = "1";
-			commands[50] = "7";
-			
-			for (int i = 0; i < 51; i++) {
-				System.out.println(commands[i]);
-			}
-			
-			Process proc = rt.exec(commands);
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-	        String line;
-	        while ((line = reader.readLine()) != null) {
-	            System.out.println(line);
-	        }
-		    
-//		    System.out.println(output); // Imprimer la sortie dans la console
-//		    mqttPublish.publish(output); // Publier la sortie via MQTT
-		} catch (Exception e) {
-		    L.error("Probleme lors de la generation de la licence : {}", e);
-		}
+//		try {
+//			Runtime rt = Runtime.getRuntime();
+//			String[] commands = new String[51];
+//
+//			commands[0] = "./main";
+//
+//			for (int i = 0; i < 16; i++) {
+//				commands[i * 3 + 1] = String.valueOf(board[i][0]);
+//				commands[i * 3 + 2] = String.valueOf(board[i][1]);
+//				commands[i * 3 + 3] = String.valueOf(board[i][2]);
+//			}
+//			commands[49] = "1";
+//			commands[50] = "7";
+//
+//			for (int i = 0; i < 51; i++) {
+//				System.out.println(commands[i]);
+//			}
+//
+//			Process proc = rt.exec(commands);
+//
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+//			String line;
+//
+//			while ((line = reader.readLine()) != null) {
+//				mqttPublish.publish(line);
+//				
+//				Matcher matcher = Pattern.compile("\\b(1[0-6]|[1-9])(B|R|TB|TR)\\b").matcher(line);
+//				int holeNum = Integer.parseInt(matcher.group(1)) - 1;
+//				String color = matcher.group(2);
+//
+//				switch (color) {
+//				case "B" -> {
+//					return new BlueAction(holeNum, player);
+//				}
+//				case "R" -> {
+//					return new RedAction(holeNum, player);
+//				}
+//				case "TB" -> {
+//					return new TransparentBlueAction(holeNum, player);
+//				}
+//				case "TR" -> {
+//					return new TransparentRedAction(holeNum, player);
+//				}
+//				default -> {
+//					throw new RuntimeException("Seed color entered is incorrect");
+//				}
+//				}
+//			}
+//		} catch (Exception e) {
+//			L.error("Probleme lors de la generation de la licence : {}", e);
+//		}
 		
 		mqttPublish.publish(action.toString());
 

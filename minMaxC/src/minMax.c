@@ -136,18 +136,18 @@ int seedCapturing(int lastHoleSowed, int board[16][3])
     return nbSeedCaptured;
 }
 
-int execute_blueAction(int player, int holeNumber, int board[16][3])
+int execute_blueAction(int holeNumber, int board[16][3])
 {
     int nbSeed = board[holeNumber][0];
     board[holeNumber][0] = 0;
 
     if (nbSeed != 0)
     {
-        int i = holeNumber;
+        int i = holeNumber + 1;
 
-        for (; nbSeed > 0; i = (i + 1) % 16)
+        for (; nbSeed > 0; i = (i + 2) % 16)
         {
-            if (!holeIsCorrect(player, i) && i != holeNumber)
+            if (i != holeNumber)
             {
                 board[i][0]++;
                 nbSeed--;
@@ -162,14 +162,14 @@ int execute_blueAction(int player, int holeNumber, int board[16][3])
     return 0;
 }
 
-int execute_redAction(int player, int holeNumber, int board[16][3])
+int execute_redAction(int holeNumber, int board[16][3])
 {
     int nbSeed = board[holeNumber][1];
     board[holeNumber][1] = 0;
 
     if (nbSeed != 0)
     {
-        int i = holeNumber;
+        int i = holeNumber + 1;
 
         for (; nbSeed > 0; i = (i + 1) % 16)
         {
@@ -188,18 +188,18 @@ int execute_redAction(int player, int holeNumber, int board[16][3])
     return 0;
 }
 
-int execute_transparentBlueAction(int player, int holeNumber, int board[16][3])
+int execute_transparentBlueAction(int holeNumber, int board[16][3])
 {
     int nbSeed = board[holeNumber][2];
     board[holeNumber][2] = 0;
 
     if (nbSeed != 0)
     {
-        int i = holeNumber;
+        int i = holeNumber + 1;
 
-        for (; nbSeed > 0; i = (i + 1) % 16)
+        for (; nbSeed > 0; i = (i + 2) % 16)
         {
-            if (!holeIsCorrect(player, i) && i != holeNumber)
+            if (i != holeNumber)
             {
                 board[i][2]++;
                 nbSeed--;
@@ -214,14 +214,14 @@ int execute_transparentBlueAction(int player, int holeNumber, int board[16][3])
     return 0;
 }
 
-int execute_transparentRedAction(int player, int holeNumber, int board[16][3])
+int execute_transparentRedAction(int holeNumber, int board[16][3])
 {
     int nbSeed = board[holeNumber][2];
     board[holeNumber][2] = 0;
 
     if (nbSeed != 0)
     {
-        int i = holeNumber;
+        int i = holeNumber + 1;
 
         for (; nbSeed > 0; i = (i + 1) % 16)
         {
@@ -277,7 +277,7 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
     {
         bool noAction = true;
 
-        for (int i = player - 1; i < 16; i += 2)
+        for (int i = player; i < 16; i += 2)
         {
 
             if (board[i][1] > 0)
@@ -285,7 +285,7 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
                 noAction = false;
 
                 deepCopy(board, boardDeepCopy);
-                nbSeedCapturedByPlayer = execute_redAction(player, i, boardDeepCopy);
+                nbSeedCapturedByPlayer = execute_redAction(i, boardDeepCopy);
                 alpha = max(alpha, alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer + nbSeedPlayer, nbSeedOpponent, depth - 1, alpha, beta, false));
 
                 if (alpha >= beta)
@@ -293,36 +293,50 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
                     return alpha;
                 }
             }
+        }
 
-            if (board[i][0] > 0)
-            {
-                noAction = false;
-
-                deepCopy(board, boardDeepCopy);
-                nbSeedCapturedByPlayer = execute_blueAction(player, i, boardDeepCopy);
-                alpha = max(alpha, alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer + nbSeedPlayer, nbSeedOpponent, depth - 1, alpha, beta, false));
-
-                if (alpha >= beta)
-                {
-                    return alpha;
-                }
-            }
-
+        for (int i = player; i < 16; i += 2)
+        {
             if (board[i][2] > 0)
             {
                 noAction = false;
 
                 deepCopy(board, boardDeepCopy);
-                nbSeedCapturedByPlayer = execute_transparentRedAction(player, i, boardDeepCopy);
+                nbSeedCapturedByPlayer = execute_transparentRedAction(i, boardDeepCopy);
                 alpha = max(alpha, alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer + nbSeedPlayer, nbSeedOpponent, depth - 1, alpha, beta, false));
 
                 if (alpha >= beta)
                 {
                     return alpha;
                 }
+            }
+        }
+
+        for (int i = player; i < 16; i += 2)
+        {
+            if (board[i][0] > 0)
+            {
+                noAction = false;
 
                 deepCopy(board, boardDeepCopy);
-                nbSeedCapturedByPlayer = execute_transparentBlueAction(player, i, boardDeepCopy);
+                nbSeedCapturedByPlayer = execute_blueAction(i, boardDeepCopy);
+                alpha = max(alpha, alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer + nbSeedPlayer, nbSeedOpponent, depth - 1, alpha, beta, false));
+
+                if (alpha >= beta)
+                {
+                    return alpha;
+                }
+            }
+        }
+
+        for (int i = player; i < 16; i += 2)
+        {
+            if (board[i][2] > 0)
+            {
+                noAction = false;
+
+                deepCopy(board, boardDeepCopy);
+                nbSeedCapturedByPlayer = execute_transparentBlueAction(i, boardDeepCopy);
                 alpha = max(alpha, alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer + nbSeedPlayer, nbSeedOpponent, depth - 1, alpha, beta, false));
 
                 if (alpha >= beta)
@@ -341,15 +355,16 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
     }
 
     bool noAction = true;
+    int opponent = (player + 1) % 2;
 
-    for (int i = player; i < 16; i += 2)
+    for (int i = opponent; i < 16; i += 2)
     {
         if (board[i][1] > 0)
         {
             noAction = false;
 
             deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByOpponent = execute_redAction(player % 2 + 1, i, boardDeepCopy);
+            nbSeedCapturedByOpponent = execute_redAction(i, boardDeepCopy);
             beta = min(beta, alphaBetaValue(player, boardDeepCopy, nbSeedPlayer, nbSeedCapturedByOpponent + nbSeedOpponent, depth - 1, alpha, beta, true));
 
             if (alpha >= beta)
@@ -357,36 +372,49 @@ int alphaBetaValue(int player, int board[16][3], int nbSeedPlayer, int nbSeedOpp
                 return beta;
             }
         }
+    }
 
-        if (board[i][0] > 0)
-        {
-            noAction = false;
-
-            deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByOpponent = execute_blueAction(player % 2 + 1, i, boardDeepCopy);
-            beta = min(beta, alphaBetaValue(player, boardDeepCopy, nbSeedPlayer, nbSeedCapturedByOpponent + nbSeedOpponent, depth - 1, alpha, beta, true));
-
-            if (alpha >= beta)
-            {
-                return beta;
-            }
-        }
-
+    for (int i = opponent; i < 16; i += 2)
+    {
         if (board[i][2] > 0)
         {
             noAction = false;
 
             deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByOpponent = execute_transparentRedAction(player % 2 + 1, i, boardDeepCopy);
+            nbSeedCapturedByOpponent = execute_transparentRedAction(i, boardDeepCopy);
             beta = min(beta, alphaBetaValue(player, boardDeepCopy, nbSeedPlayer, nbSeedCapturedByOpponent + nbSeedOpponent, depth - 1, alpha, beta, true));
 
             if (alpha >= beta)
             {
                 return beta;
             }
+        }
+    }
+
+    for (int i = opponent; i < 16; i += 2)
+    {
+        if (board[i][0] > 0)
+        {
+            noAction = false;
 
             deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByOpponent = execute_transparentBlueAction(player % 2 + 1, i, boardDeepCopy);
+            nbSeedCapturedByOpponent = execute_blueAction(i, boardDeepCopy);
+            beta = min(beta, alphaBetaValue(player, boardDeepCopy, nbSeedPlayer, nbSeedCapturedByOpponent + nbSeedOpponent, depth - 1, alpha, beta, true));
+
+            if (alpha >= beta)
+            {
+                return beta;
+            }
+        }
+    }
+
+    for (int i = opponent; i < 16; i += 2)
+    {
+        if (board[i][2] > 0)
+        {
+            noAction = false;
+            deepCopy(board, boardDeepCopy);
+            nbSeedCapturedByOpponent = execute_transparentBlueAction(i, boardDeepCopy);
             beta = min(beta, alphaBetaValue(player, boardDeepCopy, nbSeedPlayer, nbSeedCapturedByOpponent + nbSeedOpponent, depth - 1, alpha, beta, true));
 
             if (alpha >= beta)
@@ -422,13 +450,16 @@ char *decisionAlphaBeta(int player, int board[16][3], int depthMax)
     char *action = NULL;
     int nbSeedCapturedByPlayer;
     int boardDeepCopy[16][3];
+    player--;
 
-    for (int i = player - 1; i < 16; i += 2)
+    clock_t startTime = clock();
+
+    for (int i = player; i < 16; i += 2)
     {
         if (board[i][1] > 0)
         {
             deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByPlayer = execute_redAction(player, i, boardDeepCopy);
+            nbSeedCapturedByPlayer = execute_redAction(i, boardDeepCopy);
             val = alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, INT_MAX, false);
 
             if (val > alpha)
@@ -437,11 +468,30 @@ char *decisionAlphaBeta(int player, int board[16][3], int depthMax)
                 alpha = val;
             }
         }
+    }
 
+    for (int i = player; i < 16; i += 2)
+    {
+        if (board[i][2] > 0)
+        {
+            deepCopy(board, boardDeepCopy);
+            nbSeedCapturedByPlayer = execute_transparentRedAction(i, boardDeepCopy);
+            val = alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, INT_MAX, false);
+
+            if (val > alpha)
+            {
+                action = toStringAction(i, "TR");
+                alpha = val;
+            }
+        }
+    }
+
+    for (int i = player; i < 16; i += 2)
+    {
         if (board[i][0] > 0)
         {
             deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByPlayer = execute_blueAction(player, i, boardDeepCopy);
+            nbSeedCapturedByPlayer = execute_blueAction(i, boardDeepCopy);
             val = alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, INT_MAX, false);
 
             if (val > alpha)
@@ -450,21 +500,14 @@ char *decisionAlphaBeta(int player, int board[16][3], int depthMax)
                 alpha = val;
             }
         }
+    }
 
+    for (int i = player; i < 16; i += 2)
+    {
         if (board[i][2] > 0)
         {
             deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByPlayer = execute_transparentRedAction(player, i, boardDeepCopy);
-            val = alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, INT_MAX, false);
-
-            if (val > alpha)
-            {
-                action = toStringAction(i, "TR");
-                alpha = val;
-            }
-
-            deepCopy(board, boardDeepCopy);
-            nbSeedCapturedByPlayer = execute_transparentBlueAction(player, i, boardDeepCopy);
+            nbSeedCapturedByPlayer = execute_transparentBlueAction(i, boardDeepCopy);
             val = alphaBetaValue(player, boardDeepCopy, nbSeedCapturedByPlayer, 0, depthMax - 1, alpha, INT_MAX, false);
 
             if (val > alpha)
@@ -476,4 +519,9 @@ char *decisionAlphaBeta(int player, int board[16][3], int depthMax)
     }
 
     printf("%s", action);
+
+    clock_t endTime = clock();
+
+    printBoarding(board);
+    printInfo(alpha, depthMax, endTime - startTime, mobility(player, board), "Colin", 0, "Antoine", 0, 0);
 }
