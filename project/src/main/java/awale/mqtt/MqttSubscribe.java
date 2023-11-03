@@ -77,7 +77,7 @@ public class MqttSubscribe implements MqttCallback {
 
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
-		System.out.println("");
+		L.debug("");
 	}
 
 	@Override

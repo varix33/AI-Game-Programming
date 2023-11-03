@@ -1,7 +1,10 @@
 package awale.game;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+import awale.action.*;
 import awale.verification.Verification;
-import awale.action.Action;
 import awale.mqtt.MqttSubscribe;
 
 public abstract class Player extends MqttSubscribe {
@@ -79,25 +82,102 @@ public abstract class Player extends MqttSubscribe {
 		}
 	}
 
-	public boolean isStarved() {
-		for (int i = 0; i < 16; i++)
-			if (holeIsCorrect(i) && (board[i][0] + board[i][1] + board[i][2]) != 0)
+	public boolean isStarved(int[][] board) {
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i) && (board[i][0] + board[i][1] + board[i][2]) != 0) {
 				return false;
+			}
+		}
+
 		return true;
 	}
 
 	public int mobility(int[][] board) {
 		int mobility = 0;
-		for (int i = 0; i < 16; i++)
+
+		for (int i = 0; i < 16; i++) {
 			if (holeIsCorrect(i)) {
-				if (board[i][0] > 0)
+				if (board[i][0] > 0) {
 					mobility += 1;
-				if (board[i][1] > 0)
+				}
+
+				if (board[i][1] > 0) {
 					mobility += 1;
-				if (board[i][2] > 0)
+				}
+
+				if (board[i][2] > 0) {
 					mobility += 2;
+				}
 			}
+		}
+
 		return mobility;
+	}
+
+	public int nbBlueSeed() {
+		int nbSeed = 0;
+
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i)) {
+				nbSeed += board[i][0];
+			}
+		}
+
+		return nbSeed;
+	}
+
+	public int nbRedSeed() {
+		int nbSeed = 0;
+
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i)) {
+				nbSeed += board[i][1];
+			}
+		}
+
+		return nbSeed;
+	}
+
+	public int nbTransparentSeed() {
+		int nbSeed = 0;
+
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i)) {
+				nbSeed += board[i][2];
+			}
+		}
+
+		return nbSeed;
+	}
+
+	public Deque<Action> possibleAction(int[][] board) {
+		Deque<Action> actions = new ArrayDeque<>();
+
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i) && board[i][2] > 1) {
+				actions.push(new TransparentBlueAction(i, this));
+			}
+		}
+
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i) && board[i][0] > 0) {
+				actions.push(new BlueAction(i, this));
+			}
+		}
+
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i) && board[i][2] > 0) {
+				actions.push(new TransparentRedAction(i, this));
+			}
+		}
+
+		for (int i = 0; i < 16; i++) {
+			if (holeIsCorrect(i) && board[i][1] > 0) {
+				actions.push(new RedAction(i, this));
+			}
+		}
+
+		return actions;
 	}
 
 }
