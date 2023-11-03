@@ -30,10 +30,10 @@ public class MinMaxParallelism extends MinMax {
 
 		long startTime = System.currentTimeMillis();
 
-		ExecutorService executor = Executors.newFixedThreadPool(possibleAction(player, board).size());
+		ExecutorService executor = Executors.newFixedThreadPool(player.possibleAction(board).size());
 		List<Callable<TaskResult>> tasks = new ArrayList<>();
 
-		for (Action a : possibleAction(player, board)) {
+		for (Action a : player.possibleAction(board)) {
 			tasks.add(new TaskThread(this, board, a, depthMax, alpha));
 		}
 

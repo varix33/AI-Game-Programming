@@ -8,7 +8,7 @@ import awale.verification.Odd;
 import java.util.Scanner;
 
 public class Random implements StartingMode {
-	
+
 	@Override
 	public void execute(Player[] players, Player p1, Player p2, int[][] board) {
 		Scanner sc = new Scanner(System.in);
@@ -30,10 +30,12 @@ public class Random implements StartingMode {
 		} else if (p1 instanceof Human || p2 instanceof Human) {
 			System.out.print("bot opponent : ");
 			name = sc.nextLine();
-			if (p1 instanceof Human)
+
+			if (p1 instanceof Human) {
 				p1.setName(name);
-			else
+			} else {
 				p2.setName(name);
+			}
 		}
 
 		if (r.nextInt(2) == 0) {
@@ -48,5 +50,5 @@ public class Random implements StartingMode {
 			players[0] = p2;
 		}
 	}
-	
+
 }

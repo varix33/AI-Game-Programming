@@ -27,13 +27,17 @@ public class Human extends Player {
 		do {
 			System.out.print(getName() + ": ");
 			matcher = Pattern.compile("\\b(1[0-6]|[1-9])(B|R|TB|TR)\\b").matcher(sc.nextLine());
+
 			if (matcher.find()) {
 				holeNum = Integer.parseInt(matcher.group(1)) - 1;
 				color = matcher.group(2);
-				if (!holeIsCorrect(holeNum))
+
+				if (!holeIsCorrect(holeNum)) {
 					System.out.println("Wrong hole");
-			} else
+				}
+			} else {
 				System.out.println("Wrong Format");
+			}
 		} while (holeNum == -1 || !holeIsCorrect(holeNum));
 
 		switch (color) {
@@ -54,4 +58,5 @@ public class Human extends Player {
 		}
 		}
 	}
+
 }

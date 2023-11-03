@@ -15,14 +15,19 @@ public class RedAction extends Action {
 
 		if (nbSeed != 0) {
 			int i = holeNumber;
-			for (; nbSeed > 0; i = (i + 1) % 16)
+
+			for (; nbSeed > 0; i = (i + 1) % 16) {
 				if (i != holeNumber) {
 					board[i][1]++;
 					nbSeed--;
 				}
+			}
+
 			i = (i == 0) ? 15 : i - 1;
+
 			return seedCapturing(i, board);
 		}
+
 		return 0;
 	}
 

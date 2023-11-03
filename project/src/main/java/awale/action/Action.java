@@ -28,6 +28,7 @@ public abstract class Action {
 		int nbSeed;
 
 		nbSeed = board[i][0] + board[i][1] + board[i][2];
+
 		while (nbSeed == 2 || nbSeed == 3) {
 			nbSeedCaptured += nbSeed;
 			board[i][0] = 0;
@@ -36,6 +37,7 @@ public abstract class Action {
 			i = (i == 0) ? 15 : i - 1;
 			nbSeed = board[i][0] + board[i][1] + board[i][2];
 		}
+
 		return nbSeedCaptured;
 	}
 
