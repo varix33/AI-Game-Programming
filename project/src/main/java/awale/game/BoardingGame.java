@@ -1,8 +1,13 @@
 package awale.game;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import awale.game.startingMode.StartingMode;
 
 public class BoardingGame {
+	
+	private static final Logger L = LogManager.getLogger();
 
 	private final int[][] board;
 	private final Player[] players;
@@ -63,12 +68,13 @@ public class BoardingGame {
 
 			if (players[0].getNbSeed() > players[1].getNbSeed()) {
 				System.out.println(players[0].getName() + " won with " + players[0].getNbSeed() + " seeds !");
-			}
-
-			else if (players[0].getNbSeed() < players[1].getNbSeed()) {
+				L.info("{} won with {} seeds !", players[0].getName(), players[0].getNbSeed());
+			} else if (players[0].getNbSeed() < players[1].getNbSeed()) {
 				System.out.println(players[1].getName() + " won with " + players[1].getNbSeed() + " seeds !");
+				L.info("{} won with {} seeds !", players[1].getName(), players[1].getNbSeed());
 			} else {
 				System.out.println("Draw !!");
+				L.info("Draw !!");
 			}
 
 			return true;
@@ -76,12 +82,14 @@ public class BoardingGame {
 		// More than 40 seeds
 		if (players[0].getNbSeed() > 40) {
 			System.out.println(players[0].getName() + " won with " + players[0].getNbSeed() + " seeds !");
+			L.info("{} won with {} seeds !", players[0].getName(), players[0].getNbSeed());
 
 			return true;
 		}
 
 		if (players[1].getNbSeed() > 40) {
 			System.out.println(players[1].getName() + " won with " + players[1].getNbSeed() + " seeds !");
+			L.info("{} won with {} seeds !", players[1].getName(), players[1].getNbSeed());
 
 			return true;
 		}
@@ -89,6 +97,7 @@ public class BoardingGame {
 		// Draw
 		if (players[0].getNbSeed() == 40 && players[1].getNbSeed() == 40) {
 			System.out.println("Draw !!");
+			L.info("Draw !!");
 
 			return true;
 		}

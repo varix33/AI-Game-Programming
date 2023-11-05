@@ -16,7 +16,7 @@
 		</RollingFile>
 		<RollingFile name="application_info" fileName="Logs/info.log" filePattern="Logs/info-%d{dd-MM-yyyy}-%i.log.gz">
 			<PatternLayout>
-				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
+				<Pattern>%m%n</Pattern>
 			</PatternLayout>
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="1" />
@@ -27,12 +27,11 @@
 	</Appenders>
 
 	<Loggers>
-		<logger name="fr.phenix333" level="debug" />
+		<logger name="awale" level="debug" />
 
 		<Root level="warn">
 			<AppenderRef ref="application_debug" level="debug"/>
 			<AppenderRef ref="application_info" level="info"/>
-			<AppenderRef ref="STDOUT" level="info"/>
 		</Root>
 	</Loggers>
 </Configuration>

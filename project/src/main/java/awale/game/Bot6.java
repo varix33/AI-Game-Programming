@@ -8,21 +8,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import awale.action.Action;
-import awale.ai.EvaluationBot4Start;
-import awale.ai.MinMax;
+import awale.ai.EvaluationBot6End;
+import awale.ai.EvaluationBot6Start;
+import awale.ai.MinMaxParallelism;
 import awale.mqtt.MqttPublish;
 import awale.mqtt.MqttSubscribe;
 
-public class Bot4 extends Bot {
+public class Bot6 extends Bot {
 
 	private static final Logger L = LogManager.getLogger();
 
 	private MqttPublish mqttPublish;
 
-	public Bot4() {
-		super();
-		setName("Bot4");
-		this.minMax = new MinMax(this, new EvaluationBot4Start());
+	public Bot6() {
+		super(true);
+		setName("Bot6");
+		this.minMax = new MinMaxParallelism(this, new EvaluationBot6Start());
 
 		addMqtt();
 	}
@@ -52,17 +53,23 @@ public class Bot4 extends Bot {
 	public Action chooseAction() {
 		int depth = 7;
 		int mobility = mobility(getBoard());
-
-		if (mobility < 12) {
+		
+		if (mobility < 10 || getOpponent().nbRedSeed() < 3) {
 			depth = 8;
 		}
 
-		minMax.setEvaluation(new EvaluationBot4Start());
+		if ((mobility(getBoard()) - getOpponent().mobility(getBoard())) > 12) {
+			minMax.setEvaluation(new EvaluationBot6End());
+		} else {
+			minMax.setEvaluation(new EvaluationBot6Start());
+		}
+
 		Action action = minMax.decisionAlphaBeta(getBoard(), depth, true);
-		System.out.println(getName() + " play " + action);
+		System.out.printf("%s play %s\n", getName(), action);
 
 		mqttPublish.publish(action.toString());
 
 		return action;
 	}
+
 }

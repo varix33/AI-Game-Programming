@@ -57,6 +57,8 @@ public class MqttSubscribe implements MqttCallback {
 
 		String broker = String.format("tcp://%s:%s", properties.getProperty("mqtt.host"),
 				properties.getProperty("mqtt.port"));
+		
+		L.info("Nouvelle partie : {} / {}", properties.getProperty("game.name"), properties.getProperty("game.opponent"));
 
 		try {
 			MqttClient client = new MqttClient(broker, MqttAsyncClient.generateClientId());

@@ -33,7 +33,9 @@ public class AutoMqtt extends Player {
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
 		L.debug("Nouveau message Mqtt | topic : {}, message : {}", topic, message);
 
-		System.out.printf("Nouveau message envoye : %s\n", message.toString());
+		System.out.printf("Nouveau message reçu : %s\n", message.toString());
+		
+		L.info("Nouveau message reçu : {}", message.toString());
 
 		this.move = message.toString();
 	}
@@ -47,7 +49,7 @@ public class AutoMqtt extends Player {
 		do {
 			while (move == null) {
 				try {
-					Thread.sleep(10);
+					Thread.sleep(1);
 				} catch (InterruptedException e) {
 					L.error(e);
 				}
