@@ -15,9 +15,10 @@ public abstract class Player extends MqttSubscribe {
     private int [][] board;
 
 
-    public Player(){ nbSeed = 0;}
+    public Player(){ nbSeed = 0; }
 
-    public Player(String name, Verification holeVerify, int [][] board) {
+    public Player(String name, Verification holeVerify, int [][] board)
+    {
         this.holeVerify = holeVerify;
         this.name = name;
         this.board = board;
@@ -28,7 +29,6 @@ public abstract class Player extends MqttSubscribe {
     public void setOpponent(Player opponent) { this.opponent = opponent; }
     public int[][] getBoard() { return board; }
     public void setBoard(int[][] board) { this.board = board; }
-    public Verification getHoleVerify() { return holeVerify; }
     public void setHoleVerify(Verification holeVerify) { this.holeVerify = holeVerify; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -39,25 +39,30 @@ public abstract class Player extends MqttSubscribe {
         return holeVerify.satisfy(holeNum);
     }
     protected abstract Action chooseAction();
-    public void play() {
+    public void play()
+    {
         Action action = chooseAction();
         int nbSeed = action.execute(getBoard());
 
-        if(nbSeed > 0) {
+        if(nbSeed > 0)
+        {
             System.out.println(getName()+" took "+nbSeed+" seeds");
             setNbSeed(getNbSeed() + nbSeed);
         }
     }
-    public boolean isStarved(int[][] board) {
+    public boolean isStarved(int[][] board)
+    {
         for (int i = 0; i < 16; i++)
             if(holeIsCorrect(i) && (board[i][0]+board[i][1]+board[i][2]) != 0)
                 return false;
         return true;
     }
-    public int mobility(int[][] board) {
+    public int mobility(int[][] board)
+    {
         int mobility = 0;
         for (int i = 0; i < 16; i++) 
-            if (holeIsCorrect(i)) {
+            if (holeIsCorrect(i))
+            {
                 if (board[i][0] > 0)
                     mobility += 1;
                 if (board[i][1] > 0)
@@ -68,29 +73,8 @@ public abstract class Player extends MqttSubscribe {
         return mobility;
     }
 
-    public int nbBlueSeed() {
-        int nbSeed = 0;
-        for (int i = 0; i < 16; i++)
-            if(holeIsCorrect(i))
-                nbSeed += board[i][0];
-        return nbSeed;
-    }
-    public int nbRedSeed() {
-        int nbSeed = 0;
-        for (int i = 0; i < 16; i++)
-            if(holeIsCorrect(i))
-                nbSeed += board[i][1];
-        return nbSeed;
-    }
-    public int nbTransparentSeed() {
-        int nbSeed = 0;
-        for (int i = 0; i < 16; i++)
-            if(holeIsCorrect(i))
-                nbSeed += board[i][2];
-        return nbSeed;
-    }
-
-    public Deque<Action> possibleAction(int[][] board) {
+    public Deque<Action> possibleAction(int[][] board)
+    {
         Deque<Action> actions = new ArrayDeque<>();
 
         for (int i = 0; i < 16; i++)

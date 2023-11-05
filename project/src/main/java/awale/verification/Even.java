@@ -1,6 +1,7 @@
 package awale.verification;
 
-public class Even implements Verification {
+public class Even implements Verification
+{
     @Override
     public boolean satisfy(int nb) {
         return nb % 2 == 1;

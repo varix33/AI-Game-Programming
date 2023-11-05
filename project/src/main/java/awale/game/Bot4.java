@@ -1,8 +1,6 @@
 package awale.game;
 
 import awale.action.Action;
-import awale.ai.EvaluationBot2End;
-import awale.ai.EvaluationBot3Start;
 import awale.ai.EvaluationBot4Start;
 import awale.ai.MinMax;
 import awale.mqtt.MqttPublish;
@@ -14,13 +12,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class BotOpponent extends Bot {
+public class Bot4 extends Bot {
 
 	private static final Logger L = LogManager.getLogger();
 
 	private MqttPublish mqttPublish;
 
-	public BotOpponent() {
+	public Bot4() {
 		super();
 		setName("Bot4");
 		this.minMax = new MinMax(this, new EvaluationBot4Start());
@@ -51,16 +49,8 @@ public class BotOpponent extends Bot {
 
 	@Override
 	public Action chooseAction() {
-		int depth;
-		int mobility = mobility(getBoard());
 
-		if (mobility < 12)
-			depth = 7;
-		else
-			depth = 8;
-
-		minMax.setEvaluation(new EvaluationBot4Start());
-		Action action = minMax.decisionAlphaBeta(getBoard(), depth, true);
+		Action action = minMax.decisionAlphaBeta(getBoard(), 8, true);
 		System.out.println(getName() + " play " + action);
 
 		mqttPublish.publish(action.toString());

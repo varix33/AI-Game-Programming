@@ -1,16 +1,16 @@
 package awale.ai;
 
-import awale.game.Bot;
+import awale.game.Player;
 
-public class EvaluationBot4Start implements Evaluation {
+public class EvaluationBot4Start implements Evaluation
+{
     @Override
-    public int evaluate(Bot bot, int nbSeedCapturedByMe, int nbSeedCapturedByOpponent, int[][] board, int depth) {
+    public int evaluate(Player p, int nbSeedCapturedByMe, int nbSeedCapturedByOpponent, int[][] board)
+    {
 
         int diffNbSeedCaptured = nbSeedCapturedByMe - nbSeedCapturedByOpponent;
-        int diffMobility = bot.mobility(board) - bot.getOpponent().mobility(board);
+        int diffMobility = p.mobility(board) - p.getOpponent().mobility(board);
 
-        // others variables (to complete)
-
-        return diffNbSeedCaptured*5 + diffMobility;
+        return  diffMobility*3 + diffNbSeedCaptured;
     }
 }

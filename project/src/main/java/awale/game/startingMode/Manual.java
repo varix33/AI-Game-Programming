@@ -8,9 +8,11 @@ import awale.verification.Odd;
 
 import java.util.Scanner;
 
-public class Manual implements StartingMode{
+public class Manual implements StartingMode
+{
     @Override
-    public void execute(Player [] players, Player p1, Player p2, int[][] board){
+    public void execute(Player [] players, Player p1, Player p2, int[][] board)
+    {
         Scanner sc = new Scanner(System.in);
 
         p1.setOpponent(p2);
@@ -18,20 +20,22 @@ public class Manual implements StartingMode{
         p1.setBoard(board);
         p2.setBoard(board);
 
-        if (p1 instanceof Human && p2 instanceof Human) {
+        if (p1 instanceof Human && p2 instanceof Human)
                 throw new RuntimeException("Human vs Human can't be launched in Manual");
-        }
-        else if (p1 instanceof Bot && p2 instanceof Bot) {
+        else if (p1 instanceof Bot && p2 instanceof Bot)
             throw new RuntimeException("Bot vs Bot can't be launched in Manual");
-        }
-        else {
+        else
+        {
             Player human;
             Player bot;
 
-            if (p1 instanceof Human) {
+            if (p1 instanceof Human)
+            {
                 human = p1;
                 bot = p2;
-            } else {
+            }
+            else
+            {
                 human = p2;
                 bot = p1;
             }
@@ -40,15 +44,19 @@ public class Manual implements StartingMode{
             String opponentName =  sc.nextLine();
             human.setName(opponentName);
             String answer;
-            do {
+
+            do
+            {
                 System.out.print("do your opponent starts ? (y/n) : ");
                 answer = sc.nextLine();
-                if (!answer.equals("y") && !answer.equals("n")){
+
+                if (!answer.equals("y") && !answer.equals("n"))
                     System.out.println("Wrong Format");
-                }
+
             } while (!answer.equals("y") && !answer.equals("n"));
 
-            switch (answer) {
+            switch (answer)
+            {
                 case "y" -> {
                     human.setHoleVerify(new Odd());
                     bot.setHoleVerify(new Even());
@@ -63,6 +71,5 @@ public class Manual implements StartingMode{
                 }
             }
         }
-
     }
 }

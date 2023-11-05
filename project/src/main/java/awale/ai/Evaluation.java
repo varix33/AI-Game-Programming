@@ -1,9 +1,10 @@
 package awale.ai;
 
-import awale.game.Bot;
+import awale.game.Player;
 
 @FunctionalInterface
-public interface Evaluation {
-    public int evaluate(Bot bot, int nbSeedCapturedByMe, int nbSeedCapturedByOpponent, int[][] board, int depth);
+public interface Evaluation
+{
+    public int evaluate(Player p, int nbSeedCapturedByMe, int nbSeedCapturedByOpponent, int[][] board);
 }
 

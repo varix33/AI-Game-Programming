@@ -1,7 +1,8 @@
 package awale.verification;
 
 @FunctionalInterface
-public interface Verification {
+public interface Verification
+{
     boolean satisfy (int nb);
 }
 

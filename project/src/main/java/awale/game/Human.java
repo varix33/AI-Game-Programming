@@ -1,27 +1,26 @@
 package awale.game;
 
 import awale.action.*;
-import awale.verification.Verification;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Human extends Player{
+public class Human extends Player
+{
 
     public Human() { super(); }
-    public Human(String name, Verification holeVerify, int[][] board) {
-        super(name, holeVerify, board);
-    }
 
     @Override
-    protected Action chooseAction() {
+    protected Action chooseAction()
+    {
         Matcher matcher;
         Scanner sc = new Scanner(System.in);
         String color = "";
         int holeNum = -1;
 
-        do {
+        do
+        {
             System.out.print(getName() + ": ");
             matcher = Pattern.compile("\\b(1[0-6]|[1-9])(B|R|TB|TR)\\b").matcher(sc.nextLine());
             if(matcher.find()) {
@@ -34,7 +33,8 @@ public class Human extends Player{
                 System.out.println("Wrong Format");
         } while (holeNum == -1 || !holeIsCorrect(holeNum));
 
-        switch (color) {
+        switch (color)
+        {
             case "B" -> {return new BlueAction(holeNum, this); }
             case "R" -> {return new RedAction(holeNum, this); }
             case "TB" -> {return new TransparentBlueAction(holeNum, this); }
