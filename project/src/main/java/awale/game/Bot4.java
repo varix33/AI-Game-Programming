@@ -30,7 +30,7 @@ public class Bot4 extends Bot {
 		InputStream inputStream = MqttSubscribe.class.getClassLoader().getResourceAsStream("application.properties");
 
 		if (inputStream == null) {
-			L.error("Le fichier application.properties n'a pas été trouvé dans le classpath.");
+			L.error("application.properties not found in the classpath");
 
 			System.exit(-1);
 		}
@@ -49,12 +49,13 @@ public class Bot4 extends Bot {
 
 	@Override
 	public Action chooseAction() {
-
 		Action action = minMax.decisionAlphaBeta(getBoard(), 8, true);
-		System.out.println(getName() + " play " + action);
 
 		mqttPublish.publish(action.toString());
+		
+		System.out.println(getName() + " play " + action);
 
 		return action;
 	}
+
 }

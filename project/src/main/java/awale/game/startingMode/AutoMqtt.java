@@ -28,13 +28,12 @@ public class AutoMqtt extends Player {
 	public AutoMqtt(String name, Verification holeVerify, int[][] board) {
 		super(name, holeVerify, board);
 	}
-	
+
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
-		L.debug("Nouveau message Mqtt | topic : {}, message : {}", topic, message);
+		L.info("New message recived : {}", message.toString());
+		System.out.printf("New message recived : %s\n", message.toString());
 
-		System.out.printf("Nouveau message envoye : %s\n", message.toString());
-		
 		this.move = message.toString();
 	}
 
@@ -52,12 +51,14 @@ public class AutoMqtt extends Player {
 					L.error(e);
 				}
 			}
-			
+
 			System.out.println(getName() + ": ");
 			matcher = Pattern.compile("\\b(1[0-6]|[1-9])(B|R|TB|TR)\\b").matcher(move);
+
 			if (matcher.find()) {
 				holeNum = Integer.parseInt(matcher.group(1)) - 1;
 				color = matcher.group(2);
+
 				if (!holeIsCorrect(holeNum)) {
 					System.out.println("Wrong hole");
 					move = null;
@@ -67,7 +68,7 @@ public class AutoMqtt extends Player {
 				move = null;
 			}
 		} while (holeNum == -1 || !holeIsCorrect(holeNum));
-		
+
 		this.move = null;
 
 		switch (color) {

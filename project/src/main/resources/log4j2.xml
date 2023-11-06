@@ -27,12 +27,11 @@
 	</Appenders>
 
 	<Loggers>
-		<logger name="fr.phenix333" level="debug" />
+		<logger name="awale" level="debug" />
 
 		<Root level="warn">
 			<AppenderRef ref="application_debug" level="debug"/>
 			<AppenderRef ref="application_info" level="info"/>
-			<AppenderRef ref="STDOUT" level="info"/>
 		</Root>
 	</Loggers>
 </Configuration>

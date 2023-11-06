@@ -42,7 +42,7 @@ public class MqttSubscribe implements MqttCallback {
 		InputStream inputStream = MqttSubscribe.class.getClassLoader().getResourceAsStream("application.properties");
 
 		if (inputStream == null) {
-			L.error("Le fichier application.properties n'a pas été trouvé dans le classpath.");
+			L.error("application.properties not found in the classpath");
 
 			System.exit(-1);
 		}
@@ -54,6 +54,8 @@ public class MqttSubscribe implements MqttCallback {
 		} catch (IOException e) {
 			L.error(e);
 		}
+		
+		L.info("New game between {} VS {}", properties.getProperty("game.name"), properties.getProperty("game.opponent"));
 
 		String broker = String.format("tcp://%s:%s", properties.getProperty("mqtt.host"),
 				properties.getProperty("mqtt.port"));
@@ -77,11 +79,12 @@ public class MqttSubscribe implements MqttCallback {
 
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
-		System.out.println("");
+		L.debug("");
 	}
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken token) {
 		L.debug("");
 	}
+
 }

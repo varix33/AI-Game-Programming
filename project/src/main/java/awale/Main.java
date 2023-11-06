@@ -9,35 +9,36 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-public class Main
-{
-    private static final Logger L = LogManager.getLogger();
+public class Main {
 
-    public static void main(String[] args)
-    {
-        deletePaho();
-        BoardingGame Game = new BoardingGame(new Bot4(), new AutoMqtt(), new Manual());
-        Game.play();
-    }
+	private static final Logger L = LogManager.getLogger();
 
-    /**
-     * Suppression des dossiers paho (MQTT)
-     */
-    private static void deletePaho()
-    {
-        L.debug("Supression des dossiers paho (MQTT)");
+	/**
+	 * Fonction principale, Random uniquement pour bot VS bot
+	 */
+	public static void main(String[] args) {
+		deletePaho();
+		BoardingGame Game = new BoardingGame(new Bot4(), new AutoMqtt(), new Manual());
+		Game.play();
+	}
 
-        File[] fichiers = new File(System.getProperty("user.dir")).listFiles();
+	/**
+	 * Suppression des dossiers paho (MQTT)
+	 */
+	private static void deletePaho() {
+		L.debug("Supression des dossiers paho (MQTT)");
 
+		File[] fichiers = new File(System.getProperty("user.dir")).listFiles();
 
-        if (fichiers != null)
-            for (File fichier : fichiers)
-                if (fichier.isDirectory() && fichier.getName().startsWith("paho"))
-                {
-                    File file = new File(fichier, ".lck");
-                    file.delete();
-                    fichier.delete();
-                }
-    }
+		if (fichiers != null) {
+			for (File fichier : fichiers) {
+				if (fichier.isDirectory() && fichier.getName().startsWith("paho")) {
+					File file = new File(fichier, ".lck");
+					file.delete();
+					fichier.delete();
+				}
+			}
+		}
+	}
 
 }

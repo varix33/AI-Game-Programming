@@ -80,7 +80,7 @@ public class MqttPublish {
 			System.exit(-1);
 		}
 
-		L.debug("Message envoye");
+		L.info("New message send : {}", theMessage);
 	}
 
 }
